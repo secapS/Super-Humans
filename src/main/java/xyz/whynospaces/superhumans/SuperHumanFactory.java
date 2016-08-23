@@ -95,4 +95,8 @@ public class SuperHumanFactory {
         }
         return deserializedItems;
     }
+
+    public ItemStack getItemByName(String hero, String item) {
+        return null;
+    }
 }

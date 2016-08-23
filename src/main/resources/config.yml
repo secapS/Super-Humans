@@ -1,6 +1,6 @@
 superhumans:
     captainamerica:
-        display-name: "&4C&9apt&fain_&4A&9mer&4ica"
+        display-name: "&4C&9apt&fain &4A&9mer&4ica"
         equip-phrase: "&4Those who deny freedom to others deserve it not for themselves."
         potion-effects:
             - STRENGTH:5
@@ -9,7 +9,7 @@ superhumans:
             shield:
                 material: SHIELD
                 amount: 1
-                display-name: "&4C&9apt&fain_&4A&9mer&4ica's &9Shield"
+                display-name: "&4C&9apt&fain &4A&9mer&4ica's &9Shield"
                 enchantments:
                    - DURABILITY:3
                    - MENDING:1

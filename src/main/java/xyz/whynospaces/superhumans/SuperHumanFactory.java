@@ -59,11 +59,8 @@ public class SuperHumanFactory {
             ItemStack item = new ItemStack(Material.valueOf(SuperHumans.instance.getConfig().getString(configPath + "material")),
                     SuperHumans.instance.getConfig().getInt(configPath + "amount"));
             ItemMeta itemMeta = item.getItemMeta();
-            System.out.println("test1: " + configPath);
-            System.out.println("test display-name: " + (SuperHumans.instance.getConfig().getString(configPath + "display-name") == null));
 
             if(SuperHumans.instance.getConfig().getString(configPath + "display-name") != null) {
-                System.out.println("test display-name");
                 itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', SuperHumans.instance.getConfig().getString(configPath + ".display-name")));
             }
 

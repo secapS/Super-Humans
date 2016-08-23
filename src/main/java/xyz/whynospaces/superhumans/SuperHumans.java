@@ -34,7 +34,7 @@ public class SuperHumans extends JavaPlugin {
             public void onJoin(PlayerJoinEvent event) {
                 userManager.setUserHero(new User(event.getPlayer()), superHumanFactory.getSuperHumanByName("captainamerica"));
             }
-            
+
         }, this);
     }
 

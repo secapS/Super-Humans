@@ -17,13 +17,16 @@ public class UserManager {
     }
 
     public void setUserHero(User user, SuperHuman hero) {
-        if(!currentHeroes.values().contains(hero.getSimpleName()) && user.getHero() != hero) {
-            this.currentHeroes.put(hero.getSimpleName(), user.getPlayer().getName());
+        System.out.println("Map null? " + (currentHeroes == null));
+        if(!currentHeroes.keySet().contains(hero.getSimpleName())) {
+            if(user.getHero() != hero) {
+                this.currentHeroes.put(hero.getSimpleName(), user.getPlayer().getName());
 
-            Player player = user.getPlayer();
+                Player player = user.getPlayer();
 
-            player.getInventory().clear();
-            player.getInventory().addItem(((ItemStack[])hero.getItems().toArray()));
+                player.getInventory().clear();
+                player.getInventory().addItem(((ItemStack[])hero.getItems().toArray()));
+            }
         } else {
             user.getPlayer().sendMessage(ChatColor.RED + "Sorry! Someone else is currently using that hero!");
         }

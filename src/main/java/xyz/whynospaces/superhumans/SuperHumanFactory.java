@@ -59,16 +59,19 @@ public class SuperHumanFactory {
             ItemStack item = new ItemStack(Material.valueOf(SuperHumans.instance.getConfig().getString(configPath + "material")),
                     SuperHumans.instance.getConfig().getInt(configPath + "amount"));
             ItemMeta itemMeta = item.getItemMeta();
+            System.out.println("test1: " + configPath);
+            System.out.println("test display-name: " + (SuperHumans.instance.getConfig().getString(configPath + "display-name") == null));
 
-            if(SuperHumans.instance.getConfig().getConfigurationSection(configPath + "display-name") != null) {
+            if(SuperHumans.instance.getConfig().getString(configPath + "display-name") != null) {
+                System.out.println("test display-name");
                 itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', SuperHumans.instance.getConfig().getString(configPath + ".display-name")));
             }
 
-            if(SuperHumans.instance.getConfig().getConfigurationSection(configPath + "leather-armor-color") != null
-                    && item.getType() == Material.LEATHER_HELMET
-                    && item.getType() == Material.LEATHER_CHESTPLATE
-                    && item.getType() == Material.LEATHER_LEGGINGS
-                    && item.getType() == Material.LEATHER_BOOTS) {
+            if(SuperHumans.instance.getConfig().getString(configPath + "leather-armor-color") != null
+                    && (item.getType() == Material.LEATHER_HELMET
+                    || item.getType() == Material.LEATHER_CHESTPLATE
+                    || item.getType() == Material.LEATHER_LEGGINGS
+                    || item.getType() == Material.LEATHER_BOOTS)) {
                 String[] rgb_string = SuperHumans.instance.getConfig().getString(configPath + "leather-armor-color").split(":");
                 int R = Integer.parseInt(rgb_string[0]);
                 int G = Integer.parseInt(rgb_string[1]);
@@ -82,10 +85,12 @@ public class SuperHumanFactory {
                 Banner banner = (Banner)shieldMeta.getBlockState();
                 banner.setBaseColor(DyeColor.valueOf(SuperHumans.instance.getConfig().getString(configPath + "shield-meta.base-color")));
 
-                for(String patterns : SuperHumans.instance.getConfig().getStringList(configPath + "shield-meta.patters")) {
+                for(String patterns : SuperHumans.instance.getConfig().getStringList(configPath + "shield-meta.patterns")) {
                     String[] patternSerialized = patterns.split(":");
                     banner.addPattern(new Pattern(DyeColor.valueOf(patternSerialized[1]), PatternType.valueOf(patternSerialized[0])));
                 }
+                banner.update();
+                shieldMeta.setBlockState(banner);
             }
 
             item.setItemMeta(itemMeta);

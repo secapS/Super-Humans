@@ -3,7 +3,7 @@ superhumans:
         display-name: "&4C&9apt&fain &4A&9mer&4ica"
         equip-phrase: "&4Those who deny freedom to others deserve it not for themselves."
         potion-effects:
-            - STRENGTH:5
+            - INCREASE_DAMAGE:5
             - HEALTH_BOOST:4
         items:
             shield:

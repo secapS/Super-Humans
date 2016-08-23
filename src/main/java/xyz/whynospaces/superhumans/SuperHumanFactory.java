@@ -22,7 +22,9 @@ public class SuperHumanFactory {
     public SuperHuman getSuperHumanByName(String name) {
         if(isSuperHuman(name)) {
             String configPath = "superhumans." + name;
-            return new SuperHuman(SuperHumans.instance.getConfig().getString(configPath + "display-name"), deserializePotionEffect(name), deserializeItems(name));
+            return new SuperHuman(SuperHumans.instance.getConfig().getString(configPath + "display-name"),
+                    deserializePotionEffect(name),
+                    deserializeItems(name));
         }
         return null;
     }
@@ -37,13 +39,11 @@ public class SuperHumanFactory {
     public List<PotionEffect> deserializePotionEffect(String name) {
         List<PotionEffect> deserializedPotionEffects = new ArrayList<PotionEffect>();
 
-        for(String serializedPotion : SuperHumans.instance.getConfig().getStringList("superhumans." + name + "potion-effects")) {
+        for(String serializedPotion : SuperHumans.instance.getConfig().getStringList("superhumans." + name + ".potion-effects")) {
             String potions = serializedPotion.split(":")[0];
             Integer amplifier = Integer.parseInt(serializedPotion.split(":")[1]);
-            for(PotionEffectType potionEffectType : PotionEffectType.values()) {
-                if(potions.equalsIgnoreCase(potionEffectType.getName())) {
-                    deserializedPotionEffects.add(potionEffectType.createEffect(Integer.MAX_VALUE, amplifier));
-                }
+            if(PotionEffectType.getByName(potions) != null) {
+                deserializedPotionEffects.add(PotionEffectType.getByName(potions).createEffect(Integer.MAX_VALUE, amplifier));
             }
         }
 

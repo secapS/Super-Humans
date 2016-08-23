@@ -23,7 +23,6 @@ public class UserManager {
                 this.currentHeroes.put(hero.getSimpleName(), user.getPlayer().getName());
 
                 Player player = user.getPlayer();
-
                 player.getInventory().clear();
                 for(ItemStack itemStack : hero.getItems()) {
                     player.getInventory().addItem(itemStack);

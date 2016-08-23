@@ -3,6 +3,7 @@ package xyz.whynospaces.superhumans.users;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 import xyz.whynospaces.superhumans.SuperHuman;
 
 import java.util.HashMap;
@@ -26,6 +27,10 @@ public class UserManager {
                 player.getInventory().clear();
                 for(ItemStack itemStack : hero.getItems()) {
                     player.getInventory().addItem(itemStack);
+                }
+
+                for(PotionEffect potionEffects : hero.getPotionEffects()) {
+                    player.addPotionEffect(potionEffects);
                 }
             }
         } else {

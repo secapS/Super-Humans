@@ -11,7 +11,6 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import xyz.whynospaces.superhumans.SuperHuman;
-import xyz.whynospaces.superhumans.SuperHumanFactory;
 import xyz.whynospaces.superhumans.SuperHumans;
 
 public class CaptainAmerica extends SuperHuman implements Listener {

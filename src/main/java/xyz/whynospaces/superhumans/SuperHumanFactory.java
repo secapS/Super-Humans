@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Banner;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -62,6 +63,14 @@ public class SuperHumanFactory {
 
             if(SuperHumans.instance.getConfig().getString(configPath + "display-name") != null) {
                 itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', SuperHumans.instance.getConfig().getString(configPath + ".display-name")));
+            }
+
+            if(SuperHumans.instance.getConfig().getStringList(configPath + "enchantments") != null) {
+                for(String serializedEnchantment : SuperHumans.instance.getConfig().getStringList(configPath + "enchantments")) {
+                    Enchantment enchantment = Enchantment.getByName(serializedEnchantment.split(":")[0]);
+                    int level = Integer.parseInt(serializedEnchantment.split(":")[1]);
+                    itemMeta.addEnchant(enchantment, level, true);
+                }
             }
 
             if(SuperHumans.instance.getConfig().getString(configPath + "leather-armor-color") != null

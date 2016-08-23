@@ -28,6 +28,7 @@ public class SuperHumanFactory {
     }
 
     public boolean isSuperHuman(String name) {
+        System.out.println("Testing: " +  SuperHumans.instance.getConfig().getConfigurationSection("superhumans").getKeys(false).toArray());
         for(String heroes : SuperHumans.instance.getConfig().getConfigurationSection("superhumans").getKeys(false)) {
             return name.equalsIgnoreCase(heroes);
         }

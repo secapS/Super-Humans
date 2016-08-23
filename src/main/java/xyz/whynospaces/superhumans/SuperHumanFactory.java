@@ -53,10 +53,10 @@ public class SuperHumanFactory {
 
     public List<ItemStack> deserializeItems(String name) {
         List<ItemStack> deserializedItems = new ArrayList<ItemStack>();
-        String configPath = "superhumans." + name + "items.";
+        String configPath = "superhumans." + name + ".items";
 
         for(String items : SuperHumans.instance.getConfig().getConfigurationSection(configPath).getKeys(false)) {
-            configPath = configPath + items + ".";
+            configPath = configPath + "." + items + ".";
             ItemStack item = new ItemStack(Material.valueOf(SuperHumans.instance.getConfig().getString(configPath + "material")),
                     SuperHumans.instance.getConfig().getInt(configPath + "amount"));
             ItemMeta itemMeta = item.getItemMeta();

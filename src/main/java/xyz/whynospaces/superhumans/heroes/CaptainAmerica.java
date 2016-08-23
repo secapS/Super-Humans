@@ -1,4 +1,6 @@
 package xyz.whynospaces.superhumans.heroes;
 
-public class CaptainAmerica {
+import xyz.whynospaces.superhumans.SuperHuman;
+
+public class CaptainAmerica extends SuperHuman {
 }

@@ -1,0 +1,5 @@
+main: xyz.whynospaces.superhumans.SuperHumans
+name: SuperHumans
+version: 1.0-SNAPSHOT
+author: Spaces
+soft-depends: [Vault]

@@ -30,4 +30,8 @@ public class SuperHuman {
     public String getDisplayName() {
         return this.displayName;
     }
+
+    public String getSimpleName() {
+        return this.getClass().getSimpleName().toLowerCase();
+    }
 }

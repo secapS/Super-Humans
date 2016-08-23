@@ -2,8 +2,13 @@ package xyz.whynospaces.superhumans;
 
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Color;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.block.Banner;
+import org.bukkit.block.banner.Pattern;
+import org.bukkit.block.banner.PatternType;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.PotionEffect;
@@ -19,7 +24,6 @@ public class SuperHumanFactory {
             String configPath = "superhumans." + name;
             return new SuperHuman(SuperHumans.instance.getConfig().getString(configPath + "display-name"), deserializePotionEffect(name), deserializeItems(name));
         }
-
         return null;
     }
 
@@ -51,6 +55,7 @@ public class SuperHumanFactory {
             ItemStack item = new ItemStack(Material.valueOf(SuperHumans.instance.getConfig().getString(configPath + "material")),
                     SuperHumans.instance.getConfig().getInt(configPath + "amount"));
             ItemMeta itemMeta = item.getItemMeta();
+
             if(SuperHumans.instance.getConfig().getConfigurationSection(configPath + "display-name") != null) {
                 itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', SuperHumans.instance.getConfig().getString(configPath + ".display-name")));
             }
@@ -67,9 +72,21 @@ public class SuperHumanFactory {
                 ((LeatherArmorMeta)itemMeta).setColor(Color.fromRGB(R, G, B));
             }
 
-            if(SuperHumans.instance.getConfig().getConfigurationSection(configPath + "shield-meta") != null) {
-                
+            if(SuperHumans.instance.getConfig().getConfigurationSection(configPath + "shield-meta") != null
+                    && item.getType() == Material.SHIELD) {
+                BlockStateMeta shieldMeta = (BlockStateMeta)itemMeta;
+                Banner banner = (Banner)shieldMeta;
+                banner.setBaseColor(DyeColor.valueOf(SuperHumans.instance.getConfig().getString(configPath + "shield-meta.base-color")));
+
+                for(String patterns : SuperHumans.instance.getConfig().getStringList(configPath + "shield-meta.patters")) {
+                    String[] patternSerialized = patterns.split(":");
+                    banner.addPattern(new Pattern(DyeColor.valueOf(patternSerialized[1]), PatternType.valueOf(patternSerialized[0])));
+                }
             }
+
+            item.setItemMeta(itemMeta);
+            deserializedItems.add(item);
         }
+        return deserializedItems;
     }
 }

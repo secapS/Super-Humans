@@ -1,17 +1,17 @@
 superhumans:
     captainamerica:
-       display-name: '&4C'
+       display-name: '&4C&9apt&fain_&4A&9mer&4ica'
+       equip-phrase: '&4Those who deny freedom to others deserve it not for themselves.'
           potion-effects:
              - STRENGTH:5
              - HEALTH_BOOST:4
           items:
-            shield: 'gsonStuff'
+            shield:
                amount: 1
                display-name: '&4C&9apt&fain_&4A&9mer&4ica\'s &9Shield'
                enchantments:
                   - DURABILITY:3
                   - MENDING:1
-                  - 'leather-armor-color: r:g:b'
                shield-meta:
                  base-color: ORANGE
                  patterns:

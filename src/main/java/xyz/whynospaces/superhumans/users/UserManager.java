@@ -17,7 +17,6 @@ public class UserManager {
     }
 
     public void setUserHero(User user, SuperHuman hero) {
-        System.out.println("Map null? " + (currentHeroes == null));
         if(!currentHeroes.keySet().contains(hero.getSimpleName())) {
             if(user.getHero() != hero) {
                 this.currentHeroes.put(hero.getSimpleName(), user.getPlayer().getName());
@@ -25,7 +24,9 @@ public class UserManager {
                 Player player = user.getPlayer();
 
                 player.getInventory().clear();
-                player.getInventory().addItem(((ItemStack[])hero.getItems().toArray()));
+                for(ItemStack itemStack : hero.getItems()) {
+                    player.getInventory().addItem(itemStack);
+                }
             }
         } else {
             user.getPlayer().sendMessage(ChatColor.RED + "Sorry! Someone else is currently using that hero!");

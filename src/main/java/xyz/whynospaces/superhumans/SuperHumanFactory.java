@@ -28,7 +28,6 @@ public class SuperHumanFactory {
     }
 
     public boolean isSuperHuman(String name) {
-        System.out.println("Testing: " +  SuperHumans.instance.getConfig().getConfigurationSection("superhumans").getKeys(false).toArray());
         for(String heroes : SuperHumans.instance.getConfig().getConfigurationSection("superhumans").getKeys(false)) {
             return name.equalsIgnoreCase(heroes);
         }
@@ -80,7 +79,7 @@ public class SuperHumanFactory {
             if(SuperHumans.instance.getConfig().getConfigurationSection(configPath + "shield-meta") != null
                     && item.getType() == Material.SHIELD) {
                 BlockStateMeta shieldMeta = (BlockStateMeta)itemMeta;
-                Banner banner = (Banner)shieldMeta;
+                Banner banner = (Banner)shieldMeta.getBlockState();
                 banner.setBaseColor(DyeColor.valueOf(SuperHumans.instance.getConfig().getString(configPath + "shield-meta.base-color")));
 
                 for(String patterns : SuperHumans.instance.getConfig().getStringList(configPath + "shield-meta.patters")) {

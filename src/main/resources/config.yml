@@ -22,3 +22,18 @@ superhumans:
                     - STRIPE_CENTER:BLUE
                     - STRIPE_MIDDLE:BLUE
                     - FLOWER:WHITE
+    humantorch:
+        display-name: "The Human Torch"
+        equip-phrase: "Flame on"
+        potion-effects:
+            - INCREASE_DAMAGE:5
+            - HEALTH_BOOST:9
+            - MINING:3
+            - SPEED:3
+            - JUMP:3
+            - REGEN:1
+        items:
+            fireball:
+                material: FIREBALL
+                amount: 1
+                display-name: "Fireball"

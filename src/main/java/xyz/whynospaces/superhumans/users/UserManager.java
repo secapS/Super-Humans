@@ -11,37 +11,63 @@ import java.util.Map;
 
 public class UserManager {
 
-    private Map<String, String> currentHeroes;
-
-    public UserManager() {
-        this.currentHeroes = new HashMap<String, String>();
-    }
+    private Map<User, SuperHuman> currentHeroes = new HashMap<User, SuperHuman>();
 
     public void setUserHero(User user, SuperHuman hero) {
-        if(!currentHeroes.keySet().contains(hero.getSimpleName())) {
-            if(user.getHero() != hero) {
-                this.currentHeroes.put(hero.getSimpleName(), user.getPlayer().getName());
 
-                Player player = user.getPlayer();
-                player.getInventory().clear();
-                for(ItemStack itemStack : hero.getItems()) {
-                    player.getInventory().addItem(itemStack);
-                }
+        user.setHero(hero);
+        this.currentHeroes.put(user, hero);
+        Player player = user.getPlayer();
+        player.getInventory().clear();
 
-                for(PotionEffect potionEffects : hero.getPotionEffects()) {
-                    player.addPotionEffect(potionEffects);
-                }
-            }
-        } else {
-            user.getPlayer().sendMessage(ChatColor.RED + "Sorry! Someone else is currently using that hero!");
+        for(ItemStack itemStack : hero.getItems()) {
+            player.getInventory().addItem(itemStack);
         }
+
+        for(PotionEffect potionEffects : hero.getPotionEffects()) {
+            player.addPotionEffect(potionEffects);
+        }
+
+//        if(users.getHero() != hero) {
+//            System.out.println("test8");
+//            if(user.getHero() == null) {
+//                user.setHero(hero);
+//                this.currentHeroes.put(user, hero);
+//                Player player = user.getPlayer();
+//                player.getInventory().clear();
+//                System.out.println("test5");
+//                for(ItemStack itemStack : hero.getItems()) {
+//                    player.getInventory().addItem(itemStack);
+//                    System.out.println("test3");
+//                }
+//
+//                for(PotionEffect potionEffects : hero.getPotionEffects()) {
+//                    player.addPotionEffect(potionEffects);
+//                }
+//            }
+//        } else {
+//            user.getPlayer().sendMessage(ChatColor.RED + "Sorry! Someone else is currently using that hero!");
+//        }
 
         if(hero == null) {
             this.currentHeroes.remove(user.getPlayer().getName());
         }
     }
 
-    public Map<String, String> getCurrentHeroes() {
+    public User getUserByPlayer(Player player) {
+        return getUserByPlayer(player.getName());
+    }
+
+    public User getUserByPlayer(String player) {
+        for(User user : currentHeroes.keySet()) {
+            if(user.getPlayer().getName().equalsIgnoreCase(player)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public Map<User, SuperHuman> getCurrentHeroes() {
         return this.currentHeroes;
     }
 }

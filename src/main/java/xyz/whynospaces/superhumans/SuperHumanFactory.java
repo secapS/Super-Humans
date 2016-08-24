@@ -23,7 +23,7 @@ public class SuperHumanFactory {
     public SuperHuman getSuperHumanByName(String name) {
         if(isSuperHuman(name)) {
             String configPath = "superhumans." + name;
-            return new SuperHuman(SuperHumans.instance.getConfig().getString(configPath + "display-name"),
+            return new SuperHuman(SuperHumans.instance.getConfig().getString(configPath + ".display-name"),
                     deserializePotionEffect(name),
                     deserializeItems(name));
         }
@@ -54,11 +54,12 @@ public class SuperHumanFactory {
     public List<ItemStack> deserializeItems(String name) {
         List<ItemStack> deserializedItems = new ArrayList<ItemStack>();
         String configPath = "superhumans." + name + ".items";
-
         for(String items : SuperHumans.instance.getConfig().getConfigurationSection(configPath).getKeys(false)) {
             configPath = configPath + "." + items + ".";
-            ItemStack item = new ItemStack(Material.valueOf(SuperHumans.instance.getConfig().getString(configPath + "material")),
-                    SuperHumans.instance.getConfig().getInt(configPath + "amount"));
+
+            ItemStack item = new ItemStack(Material.getMaterial(SuperHumans.instance.getConfig().getString(configPath + "material")));
+            item.setAmount(SuperHumans.instance.getConfig().getInt(configPath + "amount"));
+
             ItemMeta itemMeta = item.getItemMeta();
 
             if(SuperHumans.instance.getConfig().getString(configPath + "display-name") != null) {

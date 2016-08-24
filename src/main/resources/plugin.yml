@@ -3,3 +3,5 @@ name: SuperHumans
 version: 1.0-SNAPSHOT
 author: Spaces
 soft-depends: [Vault]
+commands:
+    hero:

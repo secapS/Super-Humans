@@ -6,6 +6,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import xyz.whynospaces.superhumans.commands.SetHeroCommand;
 import xyz.whynospaces.superhumans.heroes.CaptainAmerica;
 import xyz.whynospaces.superhumans.users.User;
 import xyz.whynospaces.superhumans.users.UserManager;
@@ -29,21 +30,15 @@ public class SuperHumans extends JavaPlugin {
         superHumanFactory = new SuperHumanFactory();
         userManager = new UserManager();
 
+        this.getCommand("hero").setExecutor(new SetHeroCommand());
+
         //TESTING STUFF ITEM DESERIALIZER
         this.getServer().getPluginManager().registerEvents(new Listener() {
 
             @EventHandler
-            public void onJoin(PlayerJoinEvent event) {
-                System.out.println(SuperHumans.instance.getConfig().getConfigurationSection("superhumans").getKeys(false).toString());
-                userManager.setUserHero(new User(event.getPlayer()), superHumanFactory.getSuperHumanByName("humantorch"));
-            }
-
-            @EventHandler
             public void onLeave(PlayerQuitEvent event) {
                 if(userManager.getUserByPlayer(event.getPlayer()) != null) {
-                    User user = userManager.getUserByPlayer(event.getPlayer());
-                    user.setHero(null);
-                    userManager.getCurrentHeroes().remove(user);
+                    userManager.setUserHero(userManager.getUserByPlayer(event.getPlayer()), null);
                 }
             }
 

@@ -26,16 +26,13 @@ public class HumanTorch extends SuperHuman implements Listener {
                 event.setCancelled(true);
                 final BlockProjectile projectile = new BlockProjectile("fireball", event.getPlayer(), 51, 0, 1.6F);
                 projectile.getEntity().getWorld().playSound(projectile.getEntity().getLocation(), Sound.ENTITY_ENDERDRAGON_FLAP, 1.0F, -3.0F);
-                projectile.addRunnable(new Runnable() {
-                    public void run() {
-                        projectile.getEntity().getWorld().spawnParticle(Particle.FLAME, projectile.getEntity().getLocation().clone(), 1, 0, 0, 0, 0);
-                    }
-                });
+                projectile.addRunnable(() -> projectile.getEntity().getWorld().spawnParticle(Particle.FLAME, projectile.getEntity().getLocation().clone(), 1, 0, 0, 0, 0));
             }
 
             if(event.getPlayer().getInventory().getItemInMainHand().equals(this.getSuperNova())) {
                 event.setCancelled(true);
-                event.getPlayer().spawnParticle(Particle.FLAME, event.getPlayer().getLocation(), 20);
+                event.getPlayer().spawnParticle(Particle.FLAME, event.getPlayer().getLocation(), 50);
+                event.getPlayer().getWorld().playSound( event.getPlayer().getLocation(), Sound.ENTITY_ENDERDRAGON_FLAP, 1.0F, -3.0F);
                 event.getPlayer().getNearbyEntities(3.0, 3.0, 3.0).stream().filter(entity -> (entity instanceof LivingEntity)).forEach(entity -> entity.setFireTicks(20 * 60));
             }
         }

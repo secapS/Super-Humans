@@ -109,7 +109,7 @@ public class SuperHumanFactory {
     public ItemStack getItemByName(SuperHuman hero, String itemName) {
         for(ItemStack items : hero.getItems()) {
             if(items.hasItemMeta() && items.getItemMeta().hasDisplayName()
-                    && ChatColor.stripColor(items.getItemMeta().getDisplayName()).equalsIgnoreCase(itemName)) {
+                    && ChatColor.stripColor(items.getItemMeta().getDisplayName().replaceAll(" ", "")).equalsIgnoreCase(itemName)) {
                 return items;
             }
         }

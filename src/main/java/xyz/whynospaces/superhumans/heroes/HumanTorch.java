@@ -35,7 +35,6 @@ public class HumanTorch extends SuperHuman implements Listener {
 
             if(event.getPlayer().getInventory().getItemInMainHand().equals(this.getSuperNova())) {
                 event.setCancelled(true);
-                event.getPlayer().sendMessage("test");
                 event.getPlayer().spawnParticle(Particle.FLAME, event.getPlayer().getLocation(), 20);
                 event.getPlayer().getNearbyEntities(3.0, 3.0, 3.0).stream().filter(entity -> (entity instanceof LivingEntity)).forEach(entity -> entity.setFireTicks(20 * 60));
             }

@@ -2,15 +2,12 @@ package xyz.whynospaces.superhumans;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.whynospaces.superhumans.commands.SetHeroCommand;
 import xyz.whynospaces.superhumans.heroes.CaptainAmerica;
 import xyz.whynospaces.superhumans.heroes.Flash;
 import xyz.whynospaces.superhumans.heroes.HumanTorch;
-import xyz.whynospaces.superhumans.users.User;
 import xyz.whynospaces.superhumans.users.UserManager;
 
 import java.io.File;
@@ -34,7 +31,6 @@ public class SuperHumans extends JavaPlugin {
 
         this.getCommand("hero").setExecutor(new SetHeroCommand());
 
-        //TESTING STUFF ITEM DESERIALIZER
         this.getServer().getPluginManager().registerEvents(new Listener() {
 
             @EventHandler

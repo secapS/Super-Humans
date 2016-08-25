@@ -8,16 +8,16 @@ superhumans:
             - MINING:3
             - SPEED:3
             - JUMP:3
-            - REGEN:1
+            - REGENERATION:1
         items:
-            supernova:
-                material: FLINT_AND_STEEL
-                amount: 1
-                display-name: "Super Nova"
             fireball:
                 material: FIREBALL
                 amount: 1
                 display-name: "Fireball"
+            supernova:
+                material: FLINT_AND_STEEL
+                amount: 1
+                display-name: "Super Nova"
     captainamerica:
         display-name: "&4C&9apt&fain &4A&9mer&4ica"
         equip-phrase: "&4Those who deny freedom to others deserve it not for themselves."
@@ -41,3 +41,15 @@ superhumans:
                     - STRIPE_CENTER:BLUE
                     - STRIPE_MIDDLE:BLUE
                     - FLOWER:WHITE
+    flashbarryallen:
+        display-name: "The Flash (Barry Allen)"
+        equip-phrase: "I'm Barry Allen"
+        potion-effects:
+            - INCREASE_DAMAGE:3
+            - HEALTH_BOOST:4
+            - REGENERATION:1
+        items:
+            speedforceboots:
+                material: IRON_BOOTS
+                amount: 1
+                display-name: "Speed Force Boots"

@@ -18,7 +18,10 @@ public class UserManager {
             this.currentHeroes.put(user, hero);
             Player player = user.getPlayer();
             player.getInventory().clear();
-            player.getActivePotionEffects().clear();
+            for (PotionEffect potions : user.getPlayer().getActivePotionEffects())
+            {
+                user.getPlayer().removePotionEffect(potions.getType());
+            }
 
             for(ItemStack itemStack : hero.getItems()) {
                 player.getInventory().addItem(itemStack);
@@ -30,7 +33,10 @@ public class UserManager {
         } else {
             this.currentHeroes.remove(user.getPlayer().getName());
             user.getPlayer().getInventory().clear();
-            user.getPlayer().getActivePotionEffects().clear();
+            for (PotionEffect potions : user.getPlayer().getActivePotionEffects())
+            {
+                user.getPlayer().removePotionEffect(potions.getType());
+            }
         }
     }
 

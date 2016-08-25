@@ -10,6 +10,10 @@ superhumans:
             - JUMP:3
             - REGEN:1
         items:
+            supernova:
+                material: FLINT_AND_STEEL
+                amount: 1
+                display-name: "Super Nova"
             fireball:
                 material: FIREBALL
                 amount: 1

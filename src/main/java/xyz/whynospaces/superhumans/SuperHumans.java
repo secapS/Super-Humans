@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.whynospaces.superhumans.commands.SetHeroCommand;
 import xyz.whynospaces.superhumans.heroes.CaptainAmerica;
+import xyz.whynospaces.superhumans.heroes.HumanTorch;
 import xyz.whynospaces.superhumans.users.User;
 import xyz.whynospaces.superhumans.users.UserManager;
 
@@ -44,6 +45,7 @@ public class SuperHumans extends JavaPlugin {
 
         }, this);
         this.getServer().getPluginManager().registerEvents(new CaptainAmerica(), this);
+        this.getServer().getPluginManager().registerEvents(new HumanTorch(), this);
     }
 
     public void createConfig() {

@@ -108,7 +108,17 @@ public class SuperHumanFactory {
         return deserializedItems;
     }
 
-    public ItemStack getItemByName(String hero, String item) {
+    public ItemStack getItemByName(SuperHuman hero, String itemName) {
+        for(ItemStack items : hero.getItems()) {
+            if(items.hasItemMeta() && items.getItemMeta().hasDisplayName()
+                    && ChatColor.stripColor(items.getItemMeta().getDisplayName()).equalsIgnoreCase(itemName)) {
+                return items;
+            }
+        }
         return null;
+    }
+
+    public ItemStack getItemByName(String hero, String itemName) {
+        return getItemByName(this.getSuperHumanByName(hero), itemName);
     }
 }

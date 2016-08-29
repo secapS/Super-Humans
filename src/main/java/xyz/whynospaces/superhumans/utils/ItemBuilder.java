@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 public class ItemBuilder
@@ -33,6 +34,7 @@ public class ItemBuilder
     protected String owner;
     protected Pattern[] patterns;
     protected DyeColor baseColor;
+    protected Color color;
 
     public ItemBuilder(Material material)
     {
@@ -52,12 +54,11 @@ public class ItemBuilder
             this.lore = new ArrayList<>(itemMeta.getLore());
 
         Set<ItemFlag> itemFlags = itemMeta.getItemFlags();
-        if(!itemFlags.isEmpty())
-            this.flags = itemFlags.toArray(new ItemFlag[itemFlags.size()]);
+        if(!itemFlags.isEmpty()) this.flags = itemFlags.toArray(new ItemFlag[itemFlags.size()]);
 
         this.enchantments = itemMeta.getEnchants();
-        if(this.enchantments.size() == 0)
-            this.enchantments = null;
+
+        if(this.enchantments.size() == 0) this.enchantments = null;
     }
 
     public ItemBuilder material(Material material)
@@ -147,12 +148,23 @@ public class ItemBuilder
         }
     }
 
-    public ItemBuilder patterns(DyeColor baseColor) {
+    public ItemBuilder color(DyeColor baseColor) {
         if(this.material == Material.SHIELD) {
             this.baseColor = baseColor;
             return this;
         } else {
             throw new IllegalArgumentException("The item must be a shield in order to have a base color.");
+        }
+    }
+
+    public ItemBuilder color(Color color) {
+        if(this.material == Material.LEATHER_HELMET || this.material == Material.LEATHER_CHESTPLATE ||
+                this.material == Material.LEATHER_LEGGINGS ||
+                this.material == Material.LEATHER_BOOTS) {
+            this.color = color;
+            return this;
+        } else {
+            throw new IllegalArgumentException("The item must be a leather armor piece in order to have patterns.");
         }
     }
 
@@ -188,6 +200,10 @@ public class ItemBuilder
             }
             banner.update();
             shieldMeta.setBlockState(banner);
+        }
+
+        if(this.color != null) {
+            ((LeatherArmorMeta)itemMeta).setColor(color);
         }
 
         itemStack.setItemMeta(itemMeta);

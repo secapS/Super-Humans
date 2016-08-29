@@ -2,6 +2,7 @@ package xyz.whynospaces.superhumans.api;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 
 public interface SuperHumanAPI {
 
@@ -15,4 +16,5 @@ public interface SuperHumanAPI {
 
     boolean setSuperHuman(SuperHuman superHuman, Player player);
 
+    PotionEffect[] getPotionEffects(SuperHuman superHuman);
 }

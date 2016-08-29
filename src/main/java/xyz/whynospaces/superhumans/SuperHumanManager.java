@@ -17,6 +17,7 @@ import xyz.whynospaces.superhumans.api.SuperHumanAPI;
 import xyz.whynospaces.superhumans.api.events.PlayerSetSuperHumanEvent;
 import xyz.whynospaces.superhumans.utils.ItemBuilder;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class SuperHumanManager implements SuperHumanAPI {
@@ -91,7 +92,7 @@ public class SuperHumanManager implements SuperHumanAPI {
 
             abilities.add(itemBuilder.build());
         }
-        return ((ItemStack[])abilities.toArray());
+        return abilities.toArray(new ItemStack[abilities.size()]);
     }
 
     @Override
@@ -142,7 +143,7 @@ public class SuperHumanManager implements SuperHumanAPI {
                         PotionEffectType.getByName(potionEffect.split(":")[0]) != null)
                 .forEach(potionEffect ->
                         potionEffects.add(PotionEffectType.getByName(potionEffect.split(":")[0]).createEffect(Integer.MAX_VALUE, Integer.parseInt(potionEffect.split(":")[1]))));
-        return ((PotionEffect[])potionEffects.toArray());
+        return potionEffects.toArray(new PotionEffect[potionEffects.size()]);
     }
 
     @Override

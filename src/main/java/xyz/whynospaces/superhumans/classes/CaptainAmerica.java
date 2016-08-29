@@ -1,5 +1,6 @@
 package xyz.whynospaces.superhumans.classes;
 
+import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
 import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,5 +40,10 @@ public class CaptainAmerica extends SuperHuman {
         super("captainamerica");
         this.setAbilities(abilities);
         this.setPotionEffects(SuperHumans.getAPI().getPotionEffects(this));
+    }
+
+    @EventHandler
+    public void onProjectileHitEvent(CustomProjectileHitEvent event) {
+
     }
 }

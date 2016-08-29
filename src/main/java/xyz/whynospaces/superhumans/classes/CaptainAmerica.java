@@ -1,9 +1,11 @@
 package xyz.whynospaces.superhumans.classes;
 
 import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
+import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -15,7 +17,17 @@ public class CaptainAmerica extends SuperHuman {
 
     public CaptainAmerica() {
         super("captainamerica");
+
         this.setAbility(new Ability() {
+
+            @Override
+            public void onDrop(PlayerDropItemEvent event) {
+                if(event.getItemDrop().getItemStack().equals(this.getItemStack()))
+                {
+                    event.getItemDrop().remove();
+                    ItemProjectile vibranium = new ItemProjectile("vibraniumshield", event.getPlayer(), this.getItemStack().clone(), 0.6F);
+                }
+            }
 
             @Override
             public ItemStack getItemStack() {
@@ -28,6 +40,7 @@ public class CaptainAmerica extends SuperHuman {
             }
 
         });
+
         this.setPotionEffects(SuperHumans.INSTANCE.getAPI().getPotionEffects(this));
     }
 
@@ -74,5 +87,4 @@ public class CaptainAmerica extends SuperHuman {
     public void onJoin(PlayerJoinEvent event) {
         SuperHumans.INSTANCE.getAPI().setSuperHuman(this, event.getPlayer());
     }
-
 }

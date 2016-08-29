@@ -2,6 +2,7 @@ package xyz.whynospaces.superhumans;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.whynospaces.superhumans.api.SuperHumanAPI;
+import xyz.whynospaces.superhumans.classes.CaptainAmerica;
 
 import java.io.File;
 import java.util.logging.Level;
@@ -17,6 +18,8 @@ public class SuperHumans extends JavaPlugin {
     @Override
     public void onEnable() {
         INSTANCE = this;
+
+        this.getAPI().registerSuperHuman(new CaptainAmerica());
     }
 
     public void createConfig() {

@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 public class SuperHumans extends JavaPlugin {
 
-    private static SuperHumanAPI api;
+    private SuperHumanAPI api;
     public static SuperHumans INSTANCE;
 
     public Logger LOGGER = this.getLogger();
@@ -32,7 +32,7 @@ public class SuperHumans extends JavaPlugin {
         }
     }
 
-    public static SuperHumanAPI getAPI() {
+    public SuperHumanAPI getAPI() {
         if(api == null) return new SuperHumanManager();
         return null;
     }

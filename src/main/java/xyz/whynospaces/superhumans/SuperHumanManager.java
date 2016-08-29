@@ -63,58 +63,19 @@ public class SuperHumanManager implements SuperHumanAPI {
         Set<ItemStack> abilities = new HashSet<>();
         for(String items : SuperHumans.INSTANCE.getConfig().getConfigurationSection("superhumans." + superHuman.getName() + ".items").getKeys(false)) {
             String configPath = "superhumans." + superHuman.getName() + ".items." + items + ".";
-            ItemBuilder itemBuilder = new ItemBuilder(Material.getMaterial(SuperHumans.INSTANCE.getConfig().getString(configPath + "material")));
-            Material material = Material.getMaterial(SuperHumans.INSTANCE.getConfig().getString(configPath + "material"));
-            itemBuilder.amount(SuperHumans.INSTANCE.getConfig().getInt(configPath + "amount"));
-
-            if(SuperHumans.INSTANCE.getConfig().getString(configPath + "display-name") != null) {
-                itemBuilder.displayName(ChatColor.translateAlternateColorCodes('&', SuperHumans.INSTANCE.getConfig().getString(configPath + ".display-name")));
-            }
-
-            if(SuperHumans.INSTANCE.getConfig().getStringList(configPath + "enchantments") != null) {
-                for(String serializedEnchantment : SuperHumans.INSTANCE.getConfig().getStringList(configPath + "enchantments")) {
-                    Enchantment enchantment = Enchantment.getByName(serializedEnchantment.split(":")[0]);
-                    int level = Integer.parseInt(serializedEnchantment.split(":")[1]);
-                    itemBuilder.enchantment(enchantment, level);
-                }
-            }
-
-            if(SuperHumans.INSTANCE.getConfig().getString(configPath + "leather-armor-color") != null
-                    && (material == Material.LEATHER_HELMET
-                    || material == Material.LEATHER_CHESTPLATE
-                    || material == Material.LEATHER_LEGGINGS
-                    || material == Material.LEATHER_BOOTS)) {
-                String[] rgb_string = SuperHumans.INSTANCE.getConfig().getString(configPath + "leather-armor-color").split(":");
-                int R = Integer.parseInt(rgb_string[0]);
-                int G = Integer.parseInt(rgb_string[1]);
-                int B = Integer.parseInt(rgb_string[2]);
-                itemBuilder.color(Color.fromRGB(R, G, B));
-            }
-
-            if(SuperHumans.INSTANCE.getConfig().getConfigurationSection(configPath + "shield-meta") != null
-                    && material == Material.SHIELD) {
-                itemBuilder.color(DyeColor.valueOf(SuperHumans.INSTANCE.getConfig().getString(configPath + "shield-meta.base-color")));
-
-                if(SuperHumans.INSTANCE.getConfig().getStringList(configPath + "shield-meta.patterns") != null) {
-                    List<Pattern> patterns = new ArrayList<>();
-                    for(String pattern : SuperHumans.INSTANCE.getConfig().getStringList(configPath + "shield-meta.patterns")) {
-                        String[] patternSerialized = pattern.split(":");
-                        patterns.add(new Pattern(DyeColor.valueOf(patternSerialized[1]), PatternType.valueOf(patternSerialized[0])));
-                    }
-
-                    itemBuilder.patterns(patterns.toArray(new Pattern[patterns.size()]));
-                }
-            }
-
-            abilities.add(itemBuilder.build());
+            abilities.add(getAbility(superHuman, items));
         }
         return abilities;
     }
 
     @Override
     public ItemStack getAbility(SuperHuman superHuman, String name) {
-        if( SuperHumans.INSTANCE.getConfig().getConfigurationSection("superhumans." + superHuman.getName() + ".items." + name) != null) {
-            String configPath = "superhumans." + superHuman.getName() + ".items." + name + ".";
+        return buildItem(superHuman, name);
+    }
+
+    public ItemStack buildItem(SuperHuman superHuman, String itemName) {
+        if(SuperHumans.INSTANCE.getConfig().getConfigurationSection("superhumans." + superHuman.getName() + ".items." + itemName) != null) {
+            String configPath = "superhumans." + superHuman.getName() + ".items." + itemName + ".";
             ItemBuilder itemBuilder = new ItemBuilder(Material.getMaterial(SuperHumans.INSTANCE.getConfig().getString(configPath + "material")));
             Material material = Material.getMaterial(SuperHumans.INSTANCE.getConfig().getString(configPath + "material"));
             itemBuilder.amount(SuperHumans.INSTANCE.getConfig().getInt(configPath + "amount"));
@@ -161,6 +122,7 @@ public class SuperHumanManager implements SuperHumanAPI {
         }
         return null;
     }
+
 
     @Override
     public boolean setSuperHuman(SuperHuman superHuman, Player player) {

@@ -18,7 +18,7 @@ public class SuperHumans extends JavaPlugin {
     @Override
     public void onEnable() {
         INSTANCE = this;
-
+        this.createConfig();
         this.getAPI().registerSuperHuman(new CaptainAmerica());
     }
 

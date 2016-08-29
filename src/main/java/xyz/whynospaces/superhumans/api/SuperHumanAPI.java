@@ -12,13 +12,13 @@ public interface SuperHumanAPI {
 
     SuperHuman getSuperHuman(String superHuman);
 
-    ItemStack[] getAbilities(SuperHuman superHuman);
+    Set<ItemStack> getAbilities(SuperHuman superHuman);
 
     ItemStack getAbility(SuperHuman superHuman, String name);
 
     boolean setSuperHuman(SuperHuman superHuman, Player player);
 
-    PotionEffect[] getPotionEffects(SuperHuman superHuman);
+    Set<PotionEffect> getPotionEffects(SuperHuman superHuman);
 
     Set<SuperHuman> getSuperHumans();
 }

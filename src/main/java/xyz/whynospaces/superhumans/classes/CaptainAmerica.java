@@ -1,11 +1,9 @@
 package xyz.whynospaces.superhumans.classes;
 
 import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
-import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -15,33 +13,21 @@ import xyz.whynospaces.superhumans.api.SuperHuman;
 
 public class CaptainAmerica extends SuperHuman {
 
-    Ability[] abilities = new Ability[] {
-            new Ability() {
-
-                @Override
-                @EventHandler
-                public void onDrop(PlayerDropItemEvent event) {
-                    Player player = event.getPlayer();
-                    if(event.getItemDrop().getItemStack().equals(this.getItemStack()))
-                    {
-                        event.getItemDrop().remove();
-                        ItemProjectile vibranium = new ItemProjectile("vibraniumshield", player, this.getItemStack().clone(), 0.6F);
-                    }
-                }
-
-                public ItemStack getItemStack() {
-                    return SuperHumans.INSTANCE.getAPI().getAbility(CaptainAmerica.this, "shield");
-                }
-
-                public String getName() {
-                    return "shield";
-                }
-            }
-    };
-
     public CaptainAmerica() {
         super("captainamerica");
-        this.setAbilities(abilities);
+        this.setAbility(new Ability() {
+
+            @Override
+            public ItemStack getItemStack() {
+                return SuperHumans.INSTANCE.getAPI().getAbility(CaptainAmerica.this, "shield");
+            }
+
+            @Override
+            public String getName() {
+                return "shield";
+            }
+
+        });
         this.setPotionEffects(SuperHumans.INSTANCE.getAPI().getPotionEffects(this));
     }
 
@@ -63,7 +49,7 @@ public class CaptainAmerica extends SuperHuman {
                 else
                 {
                     player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.5F, 0.5F);
-                    ItemStack item = this.getAbilities()[0].getItemStack();
+                    ItemStack item = SuperHumans.INSTANCE.getAPI().getAbility(this, "shield");
                     if(player.getInventory().firstEmpty() == -1) {
                         player.getWorld().dropItemNaturally(player.getLocation(), item);
                     } else {
@@ -86,7 +72,7 @@ public class CaptainAmerica extends SuperHuman {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-
+        SuperHumans.INSTANCE.getAPI().setSuperHuman(this, event.getPlayer());
     }
 
 }

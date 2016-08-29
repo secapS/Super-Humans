@@ -8,6 +8,10 @@ import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -17,7 +21,6 @@ import xyz.whynospaces.superhumans.api.SuperHumanAPI;
 import xyz.whynospaces.superhumans.api.events.PlayerSetSuperHumanEvent;
 import xyz.whynospaces.superhumans.utils.ItemBuilder;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class SuperHumanManager implements SuperHumanAPI {
@@ -29,6 +32,20 @@ public class SuperHumanManager implements SuperHumanAPI {
     public void registerSuperHuman(SuperHuman superHuman) {
         this.superHumans.add(superHuman);
         SuperHumans.INSTANCE.getServer().getPluginManager().registerEvents(superHuman, SuperHumans.INSTANCE);
+
+        for(Ability ability : superHuman.getAbilities()) {
+            SuperHumans.INSTANCE.getServer().getPluginManager().registerEvents(new Listener() {
+                @EventHandler
+                public void onDrop(PlayerDropItemEvent event) {
+                    ability.onDrop(event);
+                }
+
+                @EventHandler
+                public void onClick(PlayerInteractEvent event) {
+                    ability.onClick(event);
+                }
+            }, SuperHumans.INSTANCE);
+        }
     }
 
     @Override
@@ -42,13 +59,16 @@ public class SuperHumanManager implements SuperHumanAPI {
     }
 
     @Override
-    public ItemStack[] getAbilities(SuperHuman superHuman) {
-        List<ItemStack> abilities = new ArrayList<>();
+    public Set<ItemStack> getAbilities(SuperHuman superHuman) {
+        Set<ItemStack> abilities = new HashSet<>();
+        System.out.println("test1");
         for(String items : SuperHumans.INSTANCE.getConfig().getConfigurationSection("superhumans." + superHuman.getName() + ".items").getKeys(false)) {
             String configPath = "superhumans." + superHuman.getName() + ".items." + items + ".";
             ItemBuilder itemBuilder = new ItemBuilder(Material.getMaterial(SuperHumans.INSTANCE.getConfig().getString(configPath + "material")));
             Material material = Material.getMaterial(SuperHumans.INSTANCE.getConfig().getString(configPath + "material"));
             itemBuilder.amount(SuperHumans.INSTANCE.getConfig().getInt(configPath + "amount"));
+
+            System.out.println("test2");
 
             if(SuperHumans.INSTANCE.getConfig().getString(configPath + "display-name") != null) {
                 itemBuilder.displayName(ChatColor.translateAlternateColorCodes('&', SuperHumans.INSTANCE.getConfig().getString(configPath + ".display-name")));
@@ -79,20 +99,19 @@ public class SuperHumanManager implements SuperHumanAPI {
                 itemBuilder.color(DyeColor.valueOf(SuperHumans.INSTANCE.getConfig().getString(configPath + "shield-meta.base-color")));
 
                 if(SuperHumans.INSTANCE.getConfig().getStringList(configPath + "shield-meta.patterns") != null) {
-                    Pattern[] patterns = null;
-                    int i = 0;
+                    List<Pattern> patterns = new ArrayList<>();
                     for(String pattern : SuperHumans.INSTANCE.getConfig().getStringList(configPath + "shield-meta.patterns")) {
                         String[] patternSerialized = pattern.split(":");
-                        patterns[i++] = new Pattern(DyeColor.valueOf(patternSerialized[1]), PatternType.valueOf(patternSerialized[0]));
+                        patterns.add(new Pattern(DyeColor.valueOf(patternSerialized[1]), PatternType.valueOf(patternSerialized[0])));
                     }
 
-                    itemBuilder.patterns(patterns);
+                    itemBuilder.patterns(patterns.toArray(new Pattern[patterns.size()]));
                 }
             }
 
             abilities.add(itemBuilder.build());
         }
-        return abilities.toArray(new ItemStack[abilities.size()]);
+        return abilities;
     }
 
     @Override
@@ -115,8 +134,8 @@ public class SuperHumanManager implements SuperHumanAPI {
             player.getInventory().clear();
             player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
 
-            player.getInventory().addItem(this.getAbilities(superHuman));
-            player.addPotionEffects(Arrays.asList(superHuman.getPotionEffects()));
+            this.getAbilities(superHuman).forEach(itemStack -> player.getInventory().addItem(itemStack));
+            superHuman.getPotionEffects().forEach(potionEffect -> player.addPotionEffect(potionEffect));
 
             PlayerSetSuperHumanEvent playerSetSuperHumanEvent = new PlayerSetSuperHumanEvent(player, superHuman);
 
@@ -136,14 +155,14 @@ public class SuperHumanManager implements SuperHumanAPI {
     }
 
     @Override
-    public PotionEffect[] getPotionEffects(SuperHuman superHuman) {
-        List<PotionEffect> potionEffects = new ArrayList<>();
+    public Set<PotionEffect> getPotionEffects(SuperHuman superHuman) {
+        Set<PotionEffect> potionEffects = new HashSet<>();
         SuperHumans.INSTANCE.getConfig().getStringList(superHuman.getName()).stream().filter(
                 potionEffect ->
                         PotionEffectType.getByName(potionEffect.split(":")[0]) != null)
                 .forEach(potionEffect ->
                         potionEffects.add(PotionEffectType.getByName(potionEffect.split(":")[0]).createEffect(Integer.MAX_VALUE, Integer.parseInt(potionEffect.split(":")[1]))));
-        return potionEffects.toArray(new PotionEffect[potionEffects.size()]);
+        return potionEffects;
     }
 
     @Override

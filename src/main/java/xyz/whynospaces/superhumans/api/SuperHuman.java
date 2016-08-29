@@ -1,8 +1,9 @@
 package xyz.whynospaces.superhumans.api;
 
+import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffect;
 
-public class SuperHuman {
+public class SuperHuman implements Listener {
 
     private String name;
     private Ability[] abilities;

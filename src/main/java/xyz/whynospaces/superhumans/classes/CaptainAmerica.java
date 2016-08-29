@@ -2,6 +2,7 @@ package xyz.whynospaces.superhumans.classes;
 
 import com.stirante.MoreProjectiles.projectile.ItemProjectile;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import xyz.whynospaces.superhumans.SuperHumans;
@@ -14,6 +15,7 @@ public class CaptainAmerica extends SuperHuman {
             new Ability() {
 
                 @Override
+                @EventHandler
                 public void onDrop(PlayerDropItemEvent event) {
                     Player player = event.getPlayer();
                     if(event.getItemDrop().getItemStack().equals(this.getItemStack()))

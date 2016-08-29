@@ -4,17 +4,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
-import org.bukkit.block.Banner;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BlockStateMeta;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import xyz.whynospaces.superhumans.api.Ability;
 import xyz.whynospaces.superhumans.api.SuperHuman;
 import xyz.whynospaces.superhumans.api.SuperHumanAPI;
 import xyz.whynospaces.superhumans.utils.ItemBuilder;
@@ -23,13 +20,21 @@ import java.util.*;
 
 public class SuperHumanManager implements SuperHumanAPI {
 
+    public Set<SuperHuman> superHumans = new HashSet<>();
+
     @Override
     public void registerSuperHuman(SuperHuman superHuman) {
-
+        this.superHumans.add(superHuman);
+        SuperHumans.INSTANCE.getServer().getPluginManager().registerEvents(superHuman, SuperHumans.INSTANCE);
     }
 
     @Override
-    public SuperHuman getSuperHuman(String superHuman) {
+    public SuperHuman getSuperHuman(String superHumanName) {
+        for(SuperHuman superHuman : superHumans) {
+            if(superHuman.getName().equalsIgnoreCase(superHumanName)) {
+                return superHuman;
+            }
+        }
         return null;
     }
 
@@ -94,6 +99,15 @@ public class SuperHumanManager implements SuperHumanAPI {
 
     @Override
     public boolean setSuperHuman(SuperHuman superHuman, Player player) {
+
+        if(superHuman != null) {
+            player.getInventory().clear();
+            player.getActivePotionEffects().clear();
+
+            player.getInventory().addItem(this.getAbilities(superHuman));
+
+        }
+
         return false;
     }
 
@@ -106,6 +120,11 @@ public class SuperHumanManager implements SuperHumanAPI {
                 .forEach(potionEffect ->
                         potionEffects.add(PotionEffectType.getByName(potionEffect.split(":")[0]).createEffect(Integer.MAX_VALUE, Integer.parseInt(potionEffect.split(":")[1]))));
         return ((PotionEffect[])potionEffects.toArray());
+    }
+
+    @Override
+    public Set<SuperHuman> getSuperHumans() {
+        return this.superHumans;
     }
 
 }

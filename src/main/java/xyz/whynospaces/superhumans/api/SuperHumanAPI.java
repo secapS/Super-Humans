@@ -4,6 +4,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
+import java.util.Set;
+
 public interface SuperHumanAPI {
 
     void registerSuperHuman(SuperHuman superHuman);
@@ -17,4 +19,6 @@ public interface SuperHumanAPI {
     boolean setSuperHuman(SuperHuman superHuman, Player player);
 
     PotionEffect[] getPotionEffects(SuperHuman superHuman);
+
+    Set<SuperHuman> getSuperHumans();
 }

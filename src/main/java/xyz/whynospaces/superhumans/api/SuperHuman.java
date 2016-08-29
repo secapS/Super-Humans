@@ -2,28 +2,33 @@ package xyz.whynospaces.superhumans.api;
 
 import org.bukkit.potion.PotionEffect;
 
-import java.util.Set;
-
 public class SuperHuman {
 
     private String name;
-    private Set<Ability> abilities;
-    private Set<PotionEffect> potionEffects;
+    private Ability[] abilities;
+    private PotionEffect[] potionEffects;
 
-    public SuperHuman(String name, Set<Ability> abilities, Set<PotionEffect> potionEffects) {
-        this.abilities = abilities;
-        this.potionEffects = potionEffects;
+    public SuperHuman(String name) {
+        this.name = name;
     }
 
     public String getName() {
         return this.name;
     }
 
-    public Set<Ability> getAbilities() {
+    public Ability[] getAbilities() {
         return this.abilities;
     }
 
-    public Set<PotionEffect> getPotionEffects() {
+    public void setAbilities(Ability[] abilities) {
+        this.abilities = abilities;
+    }
+
+    public PotionEffect[] getPotionEffects() {
         return this.potionEffects;
+    }
+
+    public void setPotionEffects(PotionEffect[] potionEffects) {
+        this.potionEffects = potionEffects;
     }
 }

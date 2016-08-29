@@ -133,7 +133,7 @@ public class SuperHumanManager implements SuperHumanAPI {
             player.getActivePotionEffects().forEach(potionEffect -> player.removePotionEffect(potionEffect.getType()));
 
             this.getAbilities(superHuman).forEach(itemStack -> player.getInventory().addItem(itemStack));
-            superHuman.getPotionEffects().forEach(potionEffect -> player.addPotionEffect(potionEffect));
+            this.getPotionEffects(superHuman).forEach(potionEffect -> player.addPotionEffect(potionEffect));
 
             PlayerSetSuperHumanEvent playerSetSuperHumanEvent = new PlayerSetSuperHumanEvent(player, superHuman);
 
@@ -155,7 +155,8 @@ public class SuperHumanManager implements SuperHumanAPI {
     @Override
     public Set<PotionEffect> getPotionEffects(SuperHuman superHuman) {
         Set<PotionEffect> potionEffects = new HashSet<>();
-        SuperHumans.INSTANCE.getConfig().getStringList(superHuman.getName()).stream().filter(
+        String configPath = "superhumans." + superHuman.getName() + ".potion-effects";
+        SuperHumans.INSTANCE.getConfig().getStringList(configPath).stream().filter(
                 potionEffect ->
                         PotionEffectType.getByName(potionEffect.split(":")[0]) != null)
                 .forEach(potionEffect ->

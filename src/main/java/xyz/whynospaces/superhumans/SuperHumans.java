@@ -1,14 +1,8 @@
 package xyz.whynospaces.superhumans;
 
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import xyz.whynospaces.superhumans.commands.SetHeroCommand;
-import xyz.whynospaces.superhumans.heroes.CaptainAmerica;
-import xyz.whynospaces.superhumans.heroes.Flash;
-import xyz.whynospaces.superhumans.heroes.HumanTorch;
-import xyz.whynospaces.superhumans.users.UserManager;
+import xyz.whynospaces.superhumans.api.SuperHumanAPI;
+import xyz.whynospaces.superhumans.classes.CaptainAmerica;
 
 import java.io.File;
 import java.util.logging.Level;
@@ -16,34 +10,16 @@ import java.util.logging.Logger;
 
 public class SuperHumans extends JavaPlugin {
 
-    public static final Logger LOGGER = Logger.getLogger("SuperHumans");
-    public static SuperHumans instance;
+    private SuperHumanAPI api;
+    public static SuperHumans INSTANCE;
 
-    public SuperHumanFactory superHumanFactory;
-    public UserManager userManager;
+    public Logger LOGGER = this.getLogger();
 
     @Override
     public void onEnable() {
-        instance = this;
-        createConfig();
-        superHumanFactory = new SuperHumanFactory();
-        userManager = new UserManager();
-
-        this.getCommand("hero").setExecutor(new SetHeroCommand());
-
-        this.getServer().getPluginManager().registerEvents(new Listener() {
-
-            @EventHandler
-            public void onLeave(PlayerQuitEvent event) {
-                if(userManager.getUserByPlayer(event.getPlayer()) != null) {
-                    userManager.setUserHero(userManager.getUserByPlayer(event.getPlayer()), null);
-                }
-            }
-
-        }, this);
-        this.getServer().getPluginManager().registerEvents(new CaptainAmerica(), this);
-        this.getServer().getPluginManager().registerEvents(new HumanTorch(), this);
-        this.getServer().getPluginManager().registerEvents(new Flash(), this);
+        INSTANCE = this;
+        this.createConfig();
+        this.getAPI().registerSuperHuman(new CaptainAmerica());
     }
 
     public void createConfig() {
@@ -58,4 +34,10 @@ public class SuperHumans extends JavaPlugin {
             this.saveDefaultConfig();
         }
     }
+
+    public SuperHumanAPI getAPI() {
+        if(api == null) return new SuperHumanManager();
+        return null;
+    }
+
 }

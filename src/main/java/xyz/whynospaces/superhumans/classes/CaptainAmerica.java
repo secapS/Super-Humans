@@ -1,33 +1,51 @@
-package xyz.whynospaces.superhumans.heroes;
+package xyz.whynospaces.superhumans.classes;
 
 import com.stirante.MoreProjectiles.event.CustomProjectileHitEvent;
 import com.stirante.MoreProjectiles.projectile.ItemProjectile;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
-import xyz.whynospaces.superhumans.SuperHuman;
 import xyz.whynospaces.superhumans.SuperHumans;
+import xyz.whynospaces.superhumans.api.Ability;
+import xyz.whynospaces.superhumans.api.SuperHuman;
 
-public class CaptainAmerica extends SuperHuman implements Listener {
+public class CaptainAmerica extends SuperHuman {
 
-    @EventHandler
-    public void onInteract(PlayerDropItemEvent event) {
-        Player player = event.getPlayer();
-        if(event.getItemDrop().getItemStack().equals(this.getShield()))
-        {
-            event.getItemDrop().remove();
-            ItemProjectile vibranium = new ItemProjectile("vibraniumshield", player, this.getShield().clone(), 0.6F);
-        }
+    public CaptainAmerica() {
+        super("captainamerica");
+
+        this.setAbility(new Ability() {
+
+            @Override
+            public void onDrop(PlayerDropItemEvent event) {
+                if(event.getItemDrop().getItemStack().equals(this.getItemStack()))
+                {
+                    event.getItemDrop().remove();
+                    ItemProjectile vibranium = new ItemProjectile("vibraniumshield", event.getPlayer(), this.getItemStack().clone(), 0.6F);
+                }
+            }
+
+            @Override
+            public ItemStack getItemStack() {
+                return SuperHumans.INSTANCE.getAPI().getAbility(CaptainAmerica.this, "shield");
+            }
+
+            @Override
+            public String getName() {
+                return "shield";
+            }
+
+        });
+
+        this.setPotionEffects(SuperHumans.INSTANCE.getAPI().getPotionEffects(this));
     }
 
     @EventHandler
-    public void onHit(final CustomProjectileHitEvent event)
-    {
+    public void onProjectileHitEvent(CustomProjectileHitEvent event) {
         if(event.getProjectile().getProjectileName().equalsIgnoreCase("vibraniumshield"))
         {
             final Player player = (Player)event.getProjectile().getShooter();
@@ -44,7 +62,7 @@ public class CaptainAmerica extends SuperHuman implements Listener {
                 else
                 {
                     player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.5F, 0.5F);
-                    ItemStack item = this.getShield();
+                    ItemStack item = SuperHumans.INSTANCE.getAPI().getAbility(this, "shield");
                     if(player.getInventory().firstEmpty() == -1) {
                         player.getWorld().dropItemNaturally(player.getLocation(), item);
                     } else {
@@ -65,12 +83,8 @@ public class CaptainAmerica extends SuperHuman implements Listener {
         }
     }
 
-    public ItemStack getShield() {
-        for(ItemStack items : SuperHumans.instance.superHumanFactory.getSuperHumanByName("captainamerica").getItems()) {
-            if(items.hasItemMeta() && items.getType() == Material.SHIELD) {
-                return items;
-            }
-        }
-        return null;
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+        SuperHumans.INSTANCE.getAPI().setSuperHuman(this, event.getPlayer());
     }
 }

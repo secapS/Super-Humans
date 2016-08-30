@@ -82,9 +82,4 @@ public class CaptainAmerica extends SuperHuman {
             }
         }
     }
-
-    @EventHandler
-    public void onJoin(PlayerJoinEvent event) {
-        SuperHumans.INSTANCE.getAPI().setSuperHuman(this, event.getPlayer());
-    }
 }

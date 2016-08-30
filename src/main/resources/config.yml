@@ -41,6 +41,28 @@ superhumans:
                     - STRIPE_CENTER:BLUE
                     - STRIPE_MIDDLE:BLUE
                     - FLOWER:WHITE
+    superman:
+        display-name: "&cS&9u&ep&9erm&can"
+        equip-phrase: "I'm better than Goku"
+        potion-effects:
+            - INCREASE_DAMAGE:20
+            - REGENERATION:1
+            - DAMAGE_RESISTANCE:3
+            - FIRE_RESISTANCE:1
+            - WATER_BREATHING:1
+            - NIGHT_VISION:1
+            - HEALTH_BOOST:19
+        items:
+            laservision:
+                material: IRON_BARDING
+                amount: 1
+                display-name: "&4Kryptonian Laser Vision"
+            speedsterboots:
+                material: IRON_BOOTS
+                amount: 1
+                display-name: "&4S&ep&4e&ce&ed&8s&0t&9e&1r &4Boots"
+                enchantments:
+                  - FROST_WALKER:1
     flashbarryallen:
         display-name: "The Flash (Barry Allen)"
         equip-phrase: "I'm Barry Allen"

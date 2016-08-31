@@ -17,6 +17,7 @@ import org.bukkit.util.Vector;
 import xyz.whynospaces.superhumans.SuperHumans;
 import xyz.whynospaces.superhumans.api.Ability;
 import xyz.whynospaces.superhumans.api.SuperHuman;
+import xyz.whynospaces.superhumans.api.SuperHumanTask;
 
 /**
  * Created by Owner on 8/29/2016.
@@ -42,21 +43,33 @@ public class Superman extends SuperHuman {
             public void onClick(PlayerInteractEvent event){
                 if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     if(event.getItem() != null && event.getItem().equals(this.getItemStack())) {
-                        Player player = event.getPlayer();
-                        Location start = player.getLocation().clone();
-                        Vector dir = player.getLocation().getDirection().clone();
-                        for(double i = 0; i < 30; i += 0.5) {
-                            dir.multiply(i);
-                            start.add(dir);
-                            start.getWorld().spawnParticle(Particle.REDSTONE, start, 10);
-                            start.subtract(dir);
-                            dir.normalize();
-                        }
+                        new SuperHumanTask(event.getPlayer(), Superman.this) {
+                            Location start = event.getPlayer().getLocation();
+                            Vector dir = event.getPlayer().getEyeLocation().getDirection();
+                            double length;
+                            @Override
+                            public void run() {
+                                length += 1;
+                                double x = dir.getX() * length;
+                                double y = dir.getY() * length + 1.5;
+                                double z = dir.getZ() * length;
+                                start.add(x, y, z);
+                                start.getWorld().spawnParticle(Particle.REDSTONE, start.getX(), start.getY(), start.getZ(), 0, 10, 255, 0,  0);
+                                start.getWorld().getNearbyEntities(start, 0.5, 0.5, 0.5).stream().filter(entity -> entity instanceof LivingEntity).filter(entity -> entity != this.getPlayer()).forEach(entity -> {
+                                    ((LivingEntity) entity).damage(10);
+                                    entity.setFireTicks(60);
+                                });
+                                start.subtract(x, y, z);
+
+                                if(length > 30) {
+                                    this.cancel();
+                                }
+                            }
+                        }.runTaskTimer(SuperHumans.INSTANCE, 0, 1);
                     }
                 }
             }
         });
-
 
         this.setPotionEffects(SuperHumans.INSTANCE.getAPI().getPotionEffects(this));
     }

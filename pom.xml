@@ -51,7 +51,7 @@
     </dependencies>
 
     <build>
-        <finalName>SuperHumans</finalName>
+        <finalName>${project.name}-${project.version}</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

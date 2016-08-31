@@ -63,15 +63,20 @@ superhumans:
                 display-name: "&4S&ep&4e&ce&ed&8s&0t&9e&1r &4Boots"
                 enchantments:
                   - FROST_WALKER:1
-    flashbarryallen:
+    theflash:
         display-name: "The Flash (Barry Allen)"
         equip-phrase: "I'm Barry Allen"
         potion-effects:
             - INCREASE_DAMAGE:3
             - HEALTH_BOOST:4
             - REGENERATION:1
+            - SPEED:0
         items:
             speedforceboots:
                 material: IRON_BOOTS
                 amount: 1
                 display-name: "Speed Force Boots"
+            speedmodifier:
+                material: FIREWORK_CHARGE
+                amount: 1
+                display-name: "Speed Modifier"

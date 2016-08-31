@@ -153,6 +153,11 @@ public class SuperHumanManager implements SuperHumanAPI {
     }
 
     @Override
+    public boolean isSuperHuman(SuperHuman superHuman, Player player) {
+        return this.getUsers().containsKey(player.getName()) && this.getUsers().get(player.getName()).equals(superHuman);
+    }
+
+    @Override
     public Set<PotionEffect> getPotionEffects(SuperHuman superHuman) {
         Set<PotionEffect> potionEffects = new HashSet<>();
         String configPath = "superhumans." + superHuman.getName() + ".potion-effects";
@@ -162,6 +167,12 @@ public class SuperHumanManager implements SuperHumanAPI {
                 .forEach(potionEffect ->
                         potionEffects.add(PotionEffectType.getByName(potionEffect.split(":")[0]).createEffect(Integer.MAX_VALUE, Integer.parseInt(potionEffect.split(":")[1]))));
         return potionEffects;
+    }
+
+    @Override
+    public boolean isAbility(Ability ability, ItemStack itemStack) {
+        return itemStack != null && itemStack.hasItemMeta() && itemStack.getItemMeta().hasDisplayName() &&
+                itemStack.getItemMeta().getDisplayName().equals(ability.getItemStack().getItemMeta().getDisplayName());
     }
 
     @Override

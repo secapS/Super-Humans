@@ -18,7 +18,11 @@ public interface SuperHumanAPI {
 
     boolean setSuperHuman(SuperHuman superHuman, Player player);
 
+    boolean isSuperHuman(SuperHuman superHuman, Player player);
+
     Set<PotionEffect> getPotionEffects(SuperHuman superHuman);
 
     Set<SuperHuman> getSuperHumans();
+
+    boolean isAbility(Ability ability, ItemStack itemStack);
 }

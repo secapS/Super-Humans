@@ -38,4 +38,12 @@ public class PlayerSetSuperHumanEvent extends Event implements Cancellable {
     public void setCancelled(boolean cancelled) {
         this.cancelled = cancelled;
     }
+
+    public Player getPlayer() {
+        return this.player;
+    }
+
+    public SuperHuman getSuperHuman() {
+        return this.superHuman;
+    }
 }

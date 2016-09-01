@@ -2,6 +2,7 @@ package xyz.whynospaces.superhumans;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.whynospaces.superhumans.api.SuperHumanAPI;
+import xyz.whynospaces.superhumans.classes.BlackBolt;
 import xyz.whynospaces.superhumans.classes.CaptainAmerica;
 import xyz.whynospaces.superhumans.classes.Superman;
 import xyz.whynospaces.superhumans.classes.TheFlash;
@@ -24,6 +25,7 @@ public class SuperHumans extends JavaPlugin {
         this.getAPI().registerSuperHuman(new CaptainAmerica());
         this.getAPI().registerSuperHuman(new Superman());
         this.getAPI().registerSuperHuman(new TheFlash());
+        this.getAPI().registerSuperHuman(new BlackBolt());
     }
 
     public void createConfig() {

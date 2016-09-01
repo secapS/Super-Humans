@@ -47,7 +47,6 @@ public class Superman extends SuperHuman {
                         Location start = event.getPlayer().getLocation();
                         Vector dir = event.getPlayer().getEyeLocation().getDirection();
 
-                        //Don't know which one to use. Malon decide.
                         for(double length = 0; length < 30; length += 0.3) {
                             double x = dir.getX() * length;
                             double y = dir.getY() * length + 1.5;
@@ -60,29 +59,6 @@ public class Superman extends SuperHuman {
                             });
                             start.subtract(x, y, z);
                         }
-//                        new SuperHumanTask(event.getPlayer(), Superman.this) {
-//                            Location start = event.getPlayer().getLocation();
-//                            Vector dir = event.getPlayer().getEyeLocation().getDirection();
-//                            double length;
-//                            @Override
-//                            public void run() {
-//                                length += 1;
-//                                double x = dir.getX() * length;
-//                                double y = dir.getY() * length + 1.5;
-//                                double z = dir.getZ() * length;
-//                                start.add(x, y, z);
-//                                start.getWorld().spawnParticle(Particle.REDSTONE, start.getX(), start.getY(), start.getZ(), 0, 10, 255, 0,  0);
-//                                start.getWorld().getNearbyEntities(start, 0.5, 0.5, 0.5).stream().filter(entity -> entity instanceof LivingEntity).filter(entity -> entity != this.getPlayer()).forEach(entity -> {
-//                                    ((LivingEntity) entity).damage(10);
-//                                    entity.setFireTicks(60);
-//                                });
-//                                start.subtract(x, y, z);
-//
-//                                if(length > 30) {
-//                                    this.cancel();
-//                                }
-//                            }
-//                        }.runTaskTimer(SuperHumans.INSTANCE, 0, 1);
                     }
                 }
             }

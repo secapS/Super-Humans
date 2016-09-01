@@ -80,3 +80,16 @@ superhumans:
                 material: FIREWORK_CHARGE
                 amount: 1
                 display-name: "Speed Modifier"
+    blackbolt:
+        display-name: "Black Bolt"
+        equip-phrase: "..."
+        potion-effects:
+            - INCREASE_DAMAGE:3
+            - HEALTH_BOOST:4
+            - REGENERATION:1
+            - SPEED:0
+        items:
+            sonicscream:
+                material: IRON_BARDING
+                amount: 1
+                display-name: "Sonic Scream"

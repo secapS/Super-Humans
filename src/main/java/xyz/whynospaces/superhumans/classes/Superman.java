@@ -18,6 +18,7 @@ import xyz.whynospaces.superhumans.SuperHumans;
 import xyz.whynospaces.superhumans.api.Ability;
 import xyz.whynospaces.superhumans.api.SuperHuman;
 import xyz.whynospaces.superhumans.api.SuperHumanTask;
+import xyz.whynospaces.superhumans.api.events.PlayerSetSuperHumanEvent;
 
 /**
  * Created by Owner on 8/29/2016.
@@ -47,13 +48,13 @@ public class Superman extends SuperHuman {
                         Vector dir = event.getPlayer().getEyeLocation().getDirection();
 
                         //Don't know which one to use. Malon decide.
-                        for(double length = 0; length < 30; length += 0.5) {
+                        for(double length = 0; length < 30; length += 0.3) {
                             double x = dir.getX() * length;
                             double y = dir.getY() * length + 1.5;
                             double z = dir.getZ() * length;
                             start.add(x, y, z);
                             start.getWorld().spawnParticle(Particle.REDSTONE, start.getX(), start.getY(), start.getZ(), 0, 10, 255, 0,  0);
-                            start.getWorld().getNearbyEntities(start, 0.5, 0.5, 0.5).stream().filter(entity -> entity instanceof LivingEntity).filter(entity -> entity != event.getPlayer()).forEach(entity -> {
+                            start.getWorld().getNearbyEntities(start, 0.75, 0.75, 0.75).stream().filter(entity -> entity instanceof LivingEntity).filter(entity -> entity != event.getPlayer()).forEach(entity -> {
                                 ((LivingEntity) entity).damage(10);
                                 entity.setFireTicks(60);
                             });
@@ -88,5 +89,12 @@ public class Superman extends SuperHuman {
         });
 
         this.setPotionEffects(SuperHumans.INSTANCE.getAPI().getPotionEffects(this));
+    }
+
+    @EventHandler
+    public void onEquip(PlayerSetSuperHumanEvent event) {
+        if(event.getSuperHuman().equals(this)) {
+            event.getPlayer().setAllowFlight(true);
+        }
     }
 }

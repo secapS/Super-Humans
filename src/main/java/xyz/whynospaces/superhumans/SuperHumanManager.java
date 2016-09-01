@@ -33,19 +33,21 @@ public class SuperHumanManager implements SuperHumanAPI {
         this.superHumans.add(superHuman);
         SuperHumans.INSTANCE.getServer().getPluginManager().registerEvents(superHuman, SuperHumans.INSTANCE);
 
-        for(Ability ability : superHuman.getAbilities()) {
-            SuperHumans.INSTANCE.getServer().getPluginManager().registerEvents(new Listener() {
-                @EventHandler
-                public void onDrop(PlayerDropItemEvent event) {
+        SuperHumans.INSTANCE.getServer().getPluginManager().registerEvents(new Listener() {
+            @EventHandler
+            public void onDrop(PlayerDropItemEvent event) {
+                for(Ability ability : superHuman.getAbilities()) {
                     ability.onDrop(event);
                 }
+            }
 
-                @EventHandler
-                public void onClick(PlayerInteractEvent event) {
+            @EventHandler
+            public void onClick(PlayerInteractEvent event) {
+                for(Ability ability : superHuman.getAbilities()) {
                     ability.onClick(event);
                 }
-            }, SuperHumans.INSTANCE);
-        }
+            }
+        }, SuperHumans.INSTANCE);
     }
 
     @Override
